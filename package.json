@@ -1,6 +1,8 @@
 {
-  "name": "Platform9-Chat Application using Socket",
+  "name": "Platform9-ChatApplicationUsingSocket",
   "version": "0.0.1",
   "description": "Chatting Application",
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.10.2"
+  }
 }
