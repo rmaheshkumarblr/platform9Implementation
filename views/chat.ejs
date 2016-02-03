@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Node Authentication</title>
+    <title>Node - Socket IO - Chat Window</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
@@ -13,31 +13,33 @@
 <div class="container">
 
     <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <h1><span class="fa fa-anchor"></span> Chat Page</h1>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
-    <div class="row">
+    <!--<div class="row">-->
 
-        <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
+        <!--&lt;!&ndash; LOCAL INFORMATION &ndash;&gt;-->
+        <!--<div class="col-sm-6">-->
+            <!--<div class="well">-->
+                <!--<h3><span class="fa fa-user"></span> Local</h3>-->
 
-                    <p>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                    </p>
+                    <!--<p>-->
+                        <!--<strong>email</strong>: <%= user.local.email %><br>-->
+                    <!--</p>-->
 
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
 </div>
 
 <ul id="messages"></ul>
 <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
+    <input id="name" autocomplete="off" value=<%= user.local.email %> readonly/>
+    <input id="m" autocomplete="off" />
+    <button>Send</button>
 </form>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -46,7 +48,11 @@
 <script>
     var socket = io();
     $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
+//        socket.emit('chat message', $('#m').val( function ( index ,val )
+//        {
+//            return user.local.email + val ;
+//        }));
+        socket.emit('chat message', $('#name').val() + " : " + $('#m').val() );
         $('#m').val('');
         return false;
     });
