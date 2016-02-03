@@ -1,8 +1,22 @@
-var express  = require('express');
-var app      = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+//var express  = require('express');
+//var app      = express();
+//var http = require('http').Server(app);
+//var io = require('socket.io')(http);
 
+var app = require('express')();
+
+//var http = require('http').Server(app);
+//var io = require('socket.io')(http);
+//var server = require('http').Server(app);
+//var io = require('socket.io')(server);
+
+//http.listen(3000, function(){
+//  console.log('listening on *:3000');
+//});
+
+//
+
+//var io = require('socket.io')(http);
 
 
 var port     = process.env.PORT || 8080;
@@ -17,7 +31,8 @@ var session      = require('express-session');
 
 var configDB = require('./config/database.js');
 
-
+//app.use(express.static("public"));
+//app.use(express.static(__dirname + '/public'));
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
@@ -30,6 +45,8 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 
 app.set('view engine', 'ejs'); // set up ejs for templating
+//app.use(express.static(__dirname + '/node_modules/socket.io'));
+//app.use(express.static(__dirname + '/node_modules/socket.io'));
 
 
 
@@ -43,23 +60,25 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(port);
+//app.listen(3000);
+
+var server = app.listen(port);
+var io = require('socket.io').listen(server);
 console.log('Server is running on ' + port);
 
 
 // app.get('/', function(req, res){
 //   res.sendFile(__dirname + '/view/index.html');
 // });
-
-// io.on('connection', function(socket){
-//   console.log('a user connected');
-//   socket.on('chat message', function(msg){
-//     io.emit('chat message', msg);
-//   });
-//   socket.on('disconnect', function(){
-//     console.log('user disconnected');
-//   });
-// });
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
 
 // http.listen(3000, function(){
 //   console.log('listening on *:3000');
