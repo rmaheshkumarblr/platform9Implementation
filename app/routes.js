@@ -18,7 +18,7 @@ module.exports = function(app, passport) {
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/chat', // redirect to the secure profile section
+        successRedirect : '/chat', //Redirecting to chat page
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
@@ -28,7 +28,7 @@ module.exports = function(app, passport) {
 
     app.get('/chat', function(req, res) {
         res.render('chat.ejs', {
-            user : req.user
+            user : req.user //Chat page populated with the logged in username
         });
     });
 
@@ -45,7 +45,7 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
 
         app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            successRedirect : '/chat', // redirect to the secure profile section
             failureRedirect : '/signup', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
